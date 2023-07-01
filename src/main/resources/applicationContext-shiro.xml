@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="realm" class="cn.ivfzhou.ssmexample.realm.CustomRealm"/>
+
+    <!-- 安全管理器 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <!-- realm -->
+        <property name="realm" ref="realm"/>
+    </bean>
+
+    <!-- shiroFilter实例 -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <!-- 1. 安全管理器 -->
+        <property name="securityManager" ref="securityManager"/>
+        <!-- 2. 过滤器链 -->
+        <property name="filterChainDefinitionMap" ref="filterChainDefinitionMap"/>
+        <!-- 3. loginUrl -->
+        <property name="loginUrl" value="/user/login-ui"/>
+    </bean>
+
+
+    <!-- 实例工厂 -->
+    <bean id="filterChainDefinitionMapFactory" class="cn.ivfzhou.ssmexample.factory.FilterChainDefinitionMapFactory"/>
+    <!-- 获取filterChainDefinitionMap -->
+    <bean id="filterChainDefinitionMap" factory-bean="filterChainDefinitionMapFactory" factory-method="getInstance"/>
+
+</beans>

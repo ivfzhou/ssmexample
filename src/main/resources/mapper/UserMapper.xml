@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ivfzhou.ssmexample.mybatis.mapper.UserMapper">
+
+    <!-- 1. 查询过滤器链-->
+    <!-- LinkedHashMap<String, String> findFilterChainDefinitionMap(); -->
+    <select id="findFilterChainDefinitionMap" resultType="java.util.LinkedHashMap">
+        select *
+        from filter_chain
+        order by ordered
+    </select>
+
+    <!-- 2. 根据生日查询信息 -->
+    <!-- List<User> findByBirthday(); -->
+    <select id="findByBirthday" resultType="User">
+        select *
+        from user
+        where DATE_FORMAT(birthday, '%m-%d') = DATE_FORMAT(now(), '%m-%d');
+    </select>
+
+</mapper>

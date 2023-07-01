@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 1. mvc驱动 -->
+    <mvc:annotation-driven/>
+    <!-- 2. 开启注解扫描 -->
+    <context:component-scan
+            base-package="cn.ivfzhou.ssmexample.controller,cn.ivfzhou.ssmexample.handler,cn.ivfzhou.ssmexample.util,cn.ivfzhou.ssmexample.interceptor"/>
+    <!-- 3. 视图解析器 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+    <!-- 4. 对静态放行 -->
+    <!--   4.1 手动指定放行路径 -->
+    <!-- <mvc:resources mapping="访问路径" location="资源的本地路径"/> -->
+    <!-- <mvc:resources mapping="/static/**" location="/static/"/> -->
+    <!--   4.2 通过tomcat容器自动放行 -->
+    <mvc:default-servlet-handler/>
+    <!-- 5. 加载properties文件 -->
+    <context:property-placeholder location="classpath:env.properties"/>
+    <!-- 6. 配置拦截器 -->
+    <!--<mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/user/**"/>
+            <ref bean="authenticationInterceptor"/>
+            <bean class="com.qf.interceptor.AuthenticationInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>-->
+    <!-- 7. 配置文件上传项的resolver，id必须为multipartResolver -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+</beans>
